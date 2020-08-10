@@ -18,6 +18,8 @@
 
 [JS设计模式-结构型](https://github.com/kurosang/blogs/blob/master/foundation/js/JS设计模式-结构型.md)
 
+[JS设计模式-行为型](https://github.com/kurosang/blogs/blob/master/foundation/js/JS设计模式-行为型.md)
+
 [掌握 eventLoop](https://github.com/kurosang/blogs/blob/master/foundation/js/掌握eventLoop.md)
 
 [不同模块的标准与区别](https://github.com/kurosang/blogs/blob/master/foundation/js/不同模块的标准与区别.md)
