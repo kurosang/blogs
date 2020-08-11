@@ -26,6 +26,10 @@
 
 [JavaScript 复杂判断的更优雅写法](https://github.com/kurosang/blogs/blob/master/foundation/js/JavaScript复杂判断的更优雅写法.md)
 
+### Vue
+
+[Vue源码-数据驱动](https://github.com/kurosang/blogs/blob/master/foundation/vue/vue源码_数据驱动.md)
+
 ### 打包工具
 
 [gulp 基础语法和使用](https://github.com/kurosang/blogs/blob/master/tool/gulp/gulp.md)
