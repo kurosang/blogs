@@ -26,7 +26,9 @@
 
 [JavaScript 复杂判断的更优雅写法](https://github.com/kurosang/blogs/blob/master/foundation/js/JavaScript复杂判断的更优雅写法.md)
 
-### Vue
+### Vue vue文档查漏补缺
+
+[vue基础查漏补缺](https://github.com/kurosang/blogs/blob/master/foundation/vue/vue文档查漏补缺.md)
 
 [Vue源码-数据驱动](https://github.com/kurosang/blogs/blob/master/foundation/vue/vue源码_数据驱动.md)
 
