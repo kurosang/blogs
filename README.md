@@ -32,6 +32,10 @@
 
 [Vue源码-数据驱动](https://github.com/kurosang/blogs/blob/master/foundation/vue/vue源码_数据驱动.md)
 
+[Vue源码-组件化](https://github.com/kurosang/blogs/blob/master/foundation/vue/vue源码_组件化.md)
+
+[Vue源码-响应式原理](https://github.com/kurosang/blogs/blob/master/foundation/vue/vue源码_响应式原理.md)
+
 ### 打包工具
 
 [gulp 基础语法和使用](https://github.com/kurosang/blogs/blob/master/tool/gulp/gulp.md)
