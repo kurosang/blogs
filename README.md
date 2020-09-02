@@ -60,4 +60,6 @@
 
 ## 生活
 
+[2020学习计划](https://github.com/kurosang/blogs/blob/master/lifes/project2020.md)
+
 [电影语录](https://github.com/kurosang/blogs/blob/master/lifes/电影语录.md)
