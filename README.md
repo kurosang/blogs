@@ -31,6 +31,8 @@
 * [Vue源码-组件化](https://github.com/kurosang/blogs/blob/master/foundation/vue/vue源码_组件化.md)
 * [Vue源码-响应式原理](https://github.com/kurosang/blogs/blob/master/foundation/vue/vue源码_响应式原理.md)
 
+[Vue源码-编译](https://github.com/kurosang/blogs/blob/master/foundation/vue/vue源码_编译.md)
+
 ### 打包工具
 * [gulp 基础语法和使用](https://github.com/kurosang/blogs/blob/master/tool/gulp/gulp.md)
 * [npm 总结](https://github.com/kurosang/blogs/blob/master/tool/npm.md)
@@ -47,5 +49,7 @@
 ---
 
 ## 生活
+
+[2020学习计划](https://github.com/kurosang/blogs/blob/master/lifes/project2020.md)
 
 [电影语录](https://github.com/kurosang/blogs/blob/master/lifes/电影语录.md)
