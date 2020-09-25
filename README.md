@@ -48,6 +48,7 @@
 ### 工作总结
 
 - 【移动端】
+  - [移动端 web 页面截图分享](https://github.com/kurosang/blogs/blob/master/experience/mobi/移动端web页面截图分享.md)
   - [Android 浏览器文本垂直居中问题](https://github.com/kurosang/blogs/blob/master/experience/mobi/Android浏览器文本垂直居中问题.md)
   - [安卓 app 嵌入 H5 页面调试](https://github.com/kurosang/blogs/blob/master/experience/mobi/安卓app嵌入H5页面调试.md)
   - [overflow hidden 不起作用](https://github.com/kurosang/blogs/blob/master/experience/mobi/移动端overflowhidden不起作用.md)
