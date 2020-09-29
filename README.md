@@ -30,15 +30,16 @@
 - [1.2W 字 | 了不起的 TypeScript 入门教程](https://juejin.im/post/6844904182843965453)
 - [一文读懂 TypeScript 泛型及应用（ 7.8K 字）](https://juejin.im/post/6844904184894980104)
 - [你不知道的 TypeScript 泛型（万字长文，建议收藏）](https://juejin.im/post/6844904196827774990)
+- [Typescript 实践总结[基础+工程+实践]](http://blog.poetries.top/2019/09/03/ts-in-action/)
 
 ### Vue
 
 - [vue 基础查漏补缺](https://github.com/kurosang/blogs/blob/master/foundation/vue/vue文档查漏补缺.md)
+- [Vue 核心梳理（vue，vuex，vue-router）](http://blog.poetries.top/2019/10/06/vue-review/)
 - [Vue 源码-数据驱动](https://github.com/kurosang/blogs/blob/master/foundation/vue/vue源码_数据驱动.md)
 - [Vue 源码-组件化](https://github.com/kurosang/blogs/blob/master/foundation/vue/vue源码_组件化.md)
 - [Vue 源码-响应式原理](https://github.com/kurosang/blogs/blob/master/foundation/vue/vue源码_响应式原理.md)
-
-[Vue 源码-编译](https://github.com/kurosang/blogs/blob/master/foundation/vue/vue源码_编译.md)
+- [Vue 源码-编译](https://github.com/kurosang/blogs/blob/master/foundation/vue/vue源码_编译.md)
 
 ### 打包工具
 
