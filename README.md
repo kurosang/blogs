@@ -18,6 +18,7 @@
 
 ### JavaScript
 
+- [装饰器模式以及 js 中的装饰器](https://github.com/kurosang/blogs/blob/master/foundation/js/装饰器模式以及js中的装饰器.md)
 - [JS 设计模式-创建型](https://github.com/kurosang/blogs/blob/master/foundation/js/JS设计模式-创建型.md)
 - [JS 设计模式-结构型](https://github.com/kurosang/blogs/blob/master/foundation/js/JS设计模式-结构型.md)
 - [JS 设计模式-行为型](https://github.com/kurosang/blogs/blob/master/foundation/js/JS设计模式-行为型.md)
@@ -43,7 +44,7 @@
 
 ### 打包工具
 
-- [gulp 基础语法和使用](https://github.com/kurosang/blogs/blob/master/tool/gulp/gulp.md)
+- [gulp 基础语法和使用](https://github.com/kurosang/blogs/blob/master/tool/gulp.md)
 - [npm 总结](https://github.com/kurosang/blogs/blob/master/tool/npm.md)
 
 ### 工作总结
