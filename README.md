@@ -41,6 +41,7 @@
 - [Vue 源码-组件化](https://github.com/kurosang/blogs/blob/master/foundation/vue/vue源码_组件化.md)
 - [Vue 源码-响应式原理](https://github.com/kurosang/blogs/blob/master/foundation/vue/vue源码_响应式原理.md)
 - [Vue 源码-编译](https://github.com/kurosang/blogs/blob/master/foundation/vue/vue源码_编译.md)
+- [Vuex 框架原理与源码分析](https://tech.meituan.com/2017/04/27/vuex-code-analysis.html)
 
 ### 打包工具
 
