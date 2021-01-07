@@ -333,3 +333,196 @@ getUserInfo(teacher);
 getUserInfo(student);
 
 ```
+
+## 高级
+
+13.打包/配置
+
+运行 tsc 命令，会自动打包，读取 tsconfig.json 的设置。
+
+但如果是 tsc index.js。这种指定打包文件的，
+
+tsconfig.json 配置项{}:
+
+`include:["./demo.ts"]`，指定要编译的文件
+
+`exclude:["./demo.ts"]`，指定不要编译的文件
+
+compilerOptions 属性里的设置项：
+
+`outDir`:重定向输出目录。
+
+`rootDir`:打包读取路径
+
+[更多](https://www.tslang.cn/docs/handbook/tsconfig-json.html)
+
+ts-node 会读取 tsconfig.json，他和 tsc 不是一个东西。
+
+14.联合类型和类型保护
+
+联合类型：就是 `|`
+
+```
+interface Bird {
+  fly: boolean;
+  sing: () => {}
+}
+
+interface Dog {
+  fly: boolean;
+  bark: () => {}
+}
+
+// 通过类型断言和代码逻辑，做类型保护
+function trainAnimal(animal: Dog | Bird){
+  if(animal.fly){
+    (animal as Bird).sing()
+  }else{
+    (animal as Dog).bark()
+  }
+}
+
+// in 语法来做类型保护
+function trainAnimal2(animal: Dog | Bird){
+  if('sing' in animal){
+    animal.sing()
+  }else{
+    animal.bark();
+  }
+}
+
+// typeof 来做类型保护
+function add(first: string | number, second: string | number){
+  if(typeof first === 'string' || typeof second === 'string'){
+    return `${first}${second}`;
+  }
+  return first + second
+}
+
+// instanceof 来做类型保护
+// 注意NumberObj要用class定义，因为interface不能调用instanceof
+class NumberObj {
+  count:number;
+}
+
+function add2(first: object | NumberObj, second: object | NumberObj){
+  if(first instanceof NumberObj && second instanceof NumberObj){
+    return first + second;
+  }
+  return 0;
+}
+```
+
+15. enum 枚举
+
+一般解决这种场景：
+
+```
+function getResult(status: number) {
+  if (status === Status.OFFLINE) {
+    return 'offline'
+  } else if (status === Status.ONLINE) {
+    return 'online'
+  } else if (status === Status.DELETED) {
+    return 'deleted'
+  }
+  return 'error'
+}
+
+const result = getResult(1)
+console.log(result)
+```
+
+```
+enum Status {
+  OFFLINE,
+  ONLINE = 2,
+  DELETED,
+}
+```
+
+输出：0 2 3
+
+一般从 0 开始，但如果中间某个设置了值，则该值往下都按这个直递增
+
+注意，枚举还可以反查，即 `Status.ONLINE` 输出为 2，`status[2]`输出为 ONLINE。
+
+16. 函数泛型 generic
+
+```
+function join<T>(a: T, b: T) {
+  return `${a}${b}`
+}
+
+join<number>(1, 1)
+```
+
+```
+function map<F>(a: F[]) {
+  return a
+}
+
+map(['123'])
+```
+
+以上写法可以达到我们要求 join 函数的两个参数必须同时为 number 或者 string
+
+主要是针对声明函数时，不确定参数的类型
+
+17. 类中的泛型以及泛型类型
+
+很多时候用联合类型都可以达到泛型的效果。但是这会导致不灵活，还有可能写很长的一串。
+
+```
+class DataManager<T> {
+  constructor(private data: T[]) {}
+  getItem(idx: number): T {
+    return this.data[idx]
+  }
+}
+
+const data = new DataManager<number>([1])
+data.getItem(0)
+```
+
+我们可以使用 interface 结合 extends 来限制 T 一定要具备某个属性
+
+```
+interface Item {
+  name: string
+}
+
+class DataManager<T extends Item> {
+  constructor(private data: T[]) {}
+  getItem(idx: number): string {
+    return this.data[idx].name
+  }
+}
+
+const data = new DataManager([{ name: 'kuro' }])
+data.getItem(0)
+```
+
+除了 interface，限制基本类型也可以
+
+```
+class DataManager<T extends number | string> {
+  constructor(private data: T[]) {}
+  getItem(idx: number): string | number {
+    return this.data[idx]
+  }
+}
+
+const data = new DataManager([])
+data.getItem(0)
+```
+
+除了上面两种（函数泛型/类泛型），泛型还可以作为一个具体类型的注解
+
+比如：
+
+```
+const func: <T>(params: T) => T = <T>(params: T) => {
+  return params
+}
+```
