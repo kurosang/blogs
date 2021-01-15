@@ -536,3 +536,65 @@ const func = <T>(params: T): T => {
 
 func<number>(1)
 ```
+
+19. 命名空间 namespace
+
+// index.ts
+
+```
+namespace Home {
+    class Header {
+        constructor() {
+            const elem = document.createElement('div')
+            elem.innerText = "This is header"
+            document.body.appendChild(elem)
+        }
+    }
+
+    class Content {
+        constructor() {
+            const elem = document.createElement('div')
+            elem.innerText = "This is Content"
+            document.body.appendChild(elem)
+        }
+    }
+
+    class Footer {
+        constructor() {
+            const elem = document.createElement('div')
+            elem.innerText = "This is Footer"
+            document.body.appendChild(elem)
+        }
+    }
+
+    export class Page {
+        constructor() {
+            new Header();
+            new Content()
+            new Footer()
+        }
+    }
+}
+```
+
+通过上面这种写法，可以把四个类都挂在 Home 上，Home 挂在全局上，这样就减少了许多挂在全局上的变量。同时，当我们想要  全局调用命名空间下的某个东西时，只要 export 出来，通过`Home.Page`就可以调用.
+
+**把多个 ts 文件打包到一个文件**
+
+`tsconfig.json`设置`"outFile": "./build/page.js",`
+
+**多个命名空间声明依赖关系**
+
+```
+///<reference path='comp.ts' />
+
+namespace Home {
+    export class Page {
+        constructor() {
+            new Comp.Header();
+            new Comp.Content()
+            new Comp.Footer()
+        }
+    }
+}
+```
