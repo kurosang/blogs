@@ -517,7 +517,7 @@ const data = new DataManager([])
 data.getItem(0)
 ```
 
-除了上面两种（函数泛型/类泛型），泛型还可以作为一个具体类型的注解
+除了上面两种（函数泛型/类泛型），泛型还可以作为一个具体的类型注解
 
 比如：
 
@@ -525,4 +525,14 @@ data.getItem(0)
 const func: <T>(params: T) => T = <T>(params: T) => {
   return params
 }
+```
+
+好像这样写也可以？？
+
+```
+const func = <T>(params: T): T => {
+  return params
+}
+
+func<number>(1)
 ```
