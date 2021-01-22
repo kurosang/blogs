@@ -537,7 +537,7 @@ const func = <T>(params: T): T => {
 func<number>(1)
 ```
 
-19. 命名空间 namespace
+18. 命名空间 namespace
 
 // index.ts
 
@@ -598,3 +598,150 @@ namespace Home {
     }
 }
 ```
+
+19. import/export 模块化组织
+
+20. 使用 Parcel 打包 TS 代码
+
+我们以上是使用 tsc 来编译的，除此之外，可以用 webpack，parcel 等打包工具来编译
+
+安装：`npm install parcel@next -D`
+
+运行：`parcel ./src/index.html`
+
+21. 描述文件中的全局类型（d.ts）
+
+`// jquery.d.ts`
+
+```
+// // 定义全局变量
+// declare var $: (param: () => void) => void
+
+// 定义全局函数
+interface jqInstance {
+  html: (html: string) => jqInstance
+}
+
+// 函数重栽
+declare function $(params: () => void): {}
+declare function $(params: string): jqInstance
+```
+
+```
+// 接口写法
+interface JQuery {
+  (params: () => void): {}
+  (params: string): jqInstance
+}
+declare var $: JQuery
+```
+
+声明对象用 namespace
+
+```
+// 如何对对象进行类型定义，以及对类进行类型定义，以及命名空间的嵌套
+declare namespace $ {
+  namespace fn {
+    class init {}
+  }
+}
+```
+
+如果$只是方法，那用interface和declare都可以，但如果$既是一个方法，也是一个对象，就用第一种 declare 会简单很多
+
+22. 模块代码的类型描述文件（ES6）
+
+我们上面那种不是模块化的描述文件
+
+```
+// index.ts
+import $ from 'jquery'
+
+$(function () {
+  $('body').html('<div>hello</div>')
+  new $.fn.init()
+})
+
+```
+
+```
+// jquery.d.ts
+// ES6模块化
+
+// 这里jquery需要加引号，与引入的地方保持一致
+declare module 'jquery' {
+  interface jqInstance {
+    html: (html: string) => jqInstance
+  }
+
+  // 混合类型
+  function $(params: () => void): {}
+  function $(params: string): jqInstance
+  namespace $ {
+    namespace fn {
+      class init {}
+    }
+  }
+
+  export = $
+}
+
+```
+
+这种是 es6 模块化的写法。commonJs 和 AMD 自行查阅。记得最后一定要 export 出去
+
+23. 泛型中 keyof 语法的使用/场景
+
+这里报错如何解决？
+
+```
+interface Person {
+  name: string
+  age: number
+  gender: string
+}
+
+class Teacher {
+  constructor(private info: Person) {}
+  getInfo(key: string) {
+    return this.info[key] //报错
+  }
+}
+
+const teacher = new Teacher({
+  name: 'kuro',
+  age: 18,
+  gender: 'male',
+})
+
+console.log(teacher.getInfo('name'))
+
+```
+
+解决：
+
+```
+interface Person {
+  name: string
+  age: number
+  gender: string
+}
+
+class Teacher {
+  constructor(private info: Person) {}
+  getInfo<T extends keyof Person>(key: T): Person[T] {
+    return this.info[key]
+  }
+}
+
+const teacher = new Teacher({
+  name: 'kuro',
+  age: 18,
+  gender: 'male',
+})
+
+console.log(teacher.getInfo('name'))
+
+```
+
+`T extends keyof Person`意思是，keyof 循环 Person 的属性，然后 T 继承自循环出的属性

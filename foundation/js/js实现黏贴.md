@@ -100,11 +100,14 @@ editor.on("paste", e => {
 1. 纯文本类型处理
 
 ```
+    // 获取文本数据
     let text = cbd.getData("text/plain")
+    // 创建p标签，并处理换行和空格
     let textNode = document.createElement("p")
     text = text.replace(/\n/g, "</br>")
     text = text.replace(/\s+/g, "&nbsp;")
     textNode.innerHTML = text
+    // 插入到编辑器
     editor.execCommand("mceInsertContent", false, textNode.innerHTML)
 ```
 
@@ -163,7 +166,7 @@ for (let i = 0; i < cbd.items.length; i++) {
     )
 ```
 
-这种类型主要是处理 word 文档相关的来源，`清理多余标签`是因为在黏贴 word 内容的时候，发现其中有许多无用的代码，比如：
+这种类型主要是处理 word 文档相关的来源，第二步骤`清理多余标签`是因为在黏贴 word 内容的时候，发现其中有许多无用的代码，比如：
 
 ```
 <p><!--[if !mso]>
@@ -183,7 +186,7 @@ w\:* {behavior:url(#default#VML);}
 
 因此需要用 js 进行过滤，然后第 3 步的解析 html 字符串生成 dom 也是比较少见的，可以留意下
 
-### 目前存在的坑
+### 仍存在的问题
 
 图文混合黏贴：仍然有可能会出现某些图文空白的情况（单张不会），具体是图文混合（类型为 html）的时候，我们无法拿到 file 资源文件，所以只能解析 html，而这些 html。空白的原因是 html 上某些 img 标签上的 src 地址是`file://`的地址，因此谷歌浏览器是限制访问的，就会产生空白。
 
