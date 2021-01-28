@@ -745,3 +745,204 @@ console.log(teacher.getInfo('name'))
 ```
 
 `T extends keyof Person`意思是，keyof 循环 Person 的属性，然后 T 继承自循环出的属性
+
+24. 类装饰器
+
+简单装饰器：
+
+```
+// 类的装饰器
+// 装饰器本身是一个函数
+// 类装饰器接受的参数是构造函数
+// 装饰器通过@符号来使用
+// 装饰器是对类做修饰，不是对每个实例做修饰
+// 可以使用多个装饰器对一个类，先收集的装饰器后使用
+
+function decorator() {
+  return function (constructor: any) {
+    constructor.prototype.getName = () => {
+      console.log('kuro')
+    }
+  }
+}
+
+@decorator()
+class Test {}
+
+const test = new Test()
+```
+
+复杂装饰器（具备语法提示）高端写法：
+
+```
+// 工厂模式
+function decorator() {
+  return function <T extends new (...args: any[]) => {}>(constructor: T) {
+    return class extends constructor {
+      name = 'lee'
+      getName() {
+        return this.name
+      }
+    }
+  }
+}
+
+const Test = decorator()(
+  class Test {
+    name: string
+    constructor(name: string) {
+      this.name = name
+    }
+  }
+)
+
+const test = new Test('dell')
+console.log(test.getName())
+```
+
+难点 1:decorator 函数的 constructor 我们从 any 改成一种泛型的写法.`T extends new (...args: any[]) => {}`表示我这是一个构造函数，或者说，我这个类型可以被实例化。所以当我们这样写之后，我们要扩展 constructor 就不用 constructor.prototype 这样写了，而是直接写。
+
+难点 2: 如果我们在装饰器上增加原来类没有的属性或者方法，则需要通过工厂函数的形式，对原来的类做一下装饰器的修饰，再生成一个新的类。然后，用新的类去 new 实例，就可以在实例里有提示装饰器上加的方法和属性了。
+
+25. 方法装饰器
+
+```
+// 普通方法：  target 对应的是 类的prototype
+// 静态方法：  target 对应的是 类的构造函数
+function decorator(target: any, key: string, descriptor: PropertyDescriptor) {
+  // descriptor.value 就是指向getName。
+  // 重写getName方法
+  descriptor.value = function () {
+    return 'decorator'
+  }
+}
+
+class Test {
+  name: string
+  constructor(name: string) {
+    this.name = name
+  }
+  @decorator
+  getName() {
+    return this.name
+  }
+}
+
+const test = new Test('kuro')
+console.log(test.getName())
+```
+
+26. 访问器装饰器
+
+```
+function decorator(target: any, key: string, descriptor: PropertyDescriptor) {
+  descriptor.writable = false
+}
+
+class Test {
+  private _name: string
+  constructor(name: string) {
+    this._name = name
+  }
+  get name() {
+    return this._name
+  }
+  @decorator
+  set name(name: string) {
+    this._name = name
+  }
+}
+
+const test = new Test('kuro')
+test.name = '123123' // 这里会报错
+console.log(test.name)
+
+```
+
+其实跟方法差不多，但要注意，get 和 set 不能都加装饰器。
+
+27. 属性访问器
+
+```
+// target 类的原型 key 属性
+function decorator(target: any, key: string): any {
+  const descriptor: PropertyDescriptor = {
+    writable: false,
+  }
+
+  return descriptor
+}
+
+class Test {
+  @decorator
+  name = 'kuro'
+}
+
+const test = new Test()
+console.log(test.name)
+```
+
+可以通过在装饰器上返回一个 descriptor 来替换掉原有的
+
+```
+function decorator(target: any, key: string): any {
+  target[key] = 'wu'
+}
+
+class Test {
+  @decorator
+  name = 'kuro'
+}
+
+const test = new Test()
+console.log(test.name)
+```
+
+使用属性装饰器并没有办法直接修改实例上的属性
+
+以上代码会输出 kuro，原因是`target[key]`其实是改 Test 类上原型的 name 属性，当我们读取实例上的属性时，首先会找到类上有 name 的属性，就不会往原型上找了
+
+28. 参数装饰器
+
+```
+// 原型 方法名 参数所在位置
+function decorator(target: any, key: string, paramIndex: number): any {}
+
+class Test {
+  getInfo(@decorator name: string, age: string) {
+    console.log(name, age)
+  }
+}
+
+const test = new Test()
+test.getInfo('kuro', '25')
+```
+
+29. 装饰器使用例子，封装 trycatch
+
+```
+function catchError(msg: string) {
+  return function (target: any, key: string, descriptor: PropertyDescriptor) {
+    const fn = descriptor.value
+    descriptor.value = function () {
+      try {
+        fn()
+      } catch (error) {
+        console.log(msg)
+      }
+    }
+  }
+}
+
+const info: any = undefined
+
+class Test {
+  @catchError('alalla')
+  getInfo() {
+    return info.name
+  }
+}
+
+const test = new Test()
+test.getInfo()
+```
