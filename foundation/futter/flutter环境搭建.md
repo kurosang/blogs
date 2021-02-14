@@ -1,8 +1,10 @@
 # flutter 环境搭建（Mac）
 
-1.首先下载去官网下载 macOs 的稳定版，然后解压在文档目录里
+1.首先下载去官网下载 macOs 的稳定版，然后解压就可以了，我个人放在文稿目录里
 
 2.添加全局路径，在/Users/kuro 下找到`.bash_profile`打开它，在里面添加`export PATH=/Users/kuro/Documents/flutter/bin:$PATH`
+
+**参考：（只需把路径的 kuro 换成你自己的用户名）**
 
 如果没有科学上网，则还要加上
 
@@ -11,7 +13,13 @@ export PUB_HOSTED_URL=https://pub.flutter-io.cn
 export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
 ```
 
+坑 1:如果没有`.bash_profile`文件，则自己创建就好。
+
 3.在系统的终端输入 `flutter doctor` 检查
+
+坑 1: flutter 的命令失效， 提示 zsh: command not found: flutter
+
+解决方法：https://blog.csdn.net/iotjin/article/details/105629266
 
 ```
 Last login: Mon Feb  1 14:31:42 on ttys002
@@ -164,13 +172,17 @@ Doctor summary (to see all details, run flutter doctor -v):
 
 #### 安装 Xcode（开发 ios App）
 
-不能将 Xcode 安装在 “Macintosh HD” 上，因为需要 macOS v10.15.4 或更高版本。
-
 1.当我们升级完系统之后，可以直接在 app store 安装 xcode
+
+这里，如果我们版本过低，会提示“不能将 Xcode 安装在 “Macintosh HD” 上，因为需要 macOS v10.15.4 或更高版本。”
 
 2.安装完 xcode，重新`flutter doctor`，提示 cocoapods 未安装
 
 这里我们使用 homebrew 进行安装
+
+坑 1:如果你运行安装 homebrew 的命令之后，出现`curl: (7) Failed to connect to raw.githubusercontent.com port 443: Connection refused`
+
+可以看这篇文章：https://blog.csdn.net/i_CodeBoy/article/details/107386756
 
 ```
 brew install cocoapods
