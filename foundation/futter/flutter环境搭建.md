@@ -1,8 +1,16 @@
 # flutter 环境搭建（Mac）
 
-1.首先下载去官网下载 macOs 的稳定版，然后解压就可以了，我个人放在文稿目录里
+#### 安装 Flutter SDK
 
-2.添加全局路径，在/Users/kuro 下找到`.bash_profile`打开它，在里面添加`export PATH=/Users/kuro/Documents/flutter/bin:$PATH`
+下载网址：https://flutter.dev/docs/development/tools/sdk/releases
+
+选择最新稳定的版本（Stable 版本）
+
+然后解压就可以了，我个人放在文稿目录里
+
+#### 环境变量配置
+
+添加全局路径，在根路径，比如我是在/Users/kuro 下找到`.bash_profile`打开它，在里面添加`export PATH=/Users/kuro/Documents/flutter/bin:$PATH`
 
 **参考：（只需把路径的 kuro 换成你自己的用户名）**
 
@@ -15,11 +23,15 @@ export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
 
 坑 1:如果没有`.bash_profile`文件，则自己创建就好。
 
-3.在系统的终端输入 `flutter doctor` 检查
+#### 检查
+
+在系统的终端输入 `flutter doctor`
 
 坑 1: flutter 的命令失效， 提示 zsh: command not found: flutter
 
 解决方法：https://blog.csdn.net/iotjin/article/details/105629266
+
+成功之后然后出现
 
 ```
 Last login: Mon Feb  1 14:31:42 on ttys002
@@ -97,7 +109,7 @@ Doctor summary (to see all details, run flutter doctor -v):
 
 但是，网上搜如果不用 Android Studio 来开发 flutter 是可以忽略的，但看到这个叉号，太不爽了。
 
-于是找到办法，运行下面命令即可解决：
+使用下面办法，运行下面命令即可解决：
 
 ```
 flutter channel dev
@@ -105,6 +117,8 @@ flutter doctor
 flutter channel master
 flutter doctor
 ```
+
+其实本质就是切换了一下分支，推测有可能是因为没及时刷新？具体可点击下面
 
 这个坑的具体解答：[点击了解](https://stackoverflow.com/questions/51860845/flutter-plugin-not-installed-error-when-running-flutter-doctor)
 
