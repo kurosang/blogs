@@ -973,4 +973,6 @@ FutureBuilder(future: _getLocalFile("Download/Stack.png"),
   }
 ```
 
-**如何设置 Placeholder**
+### 动画 Animation
+
+https://www.devio.org/2019/04/20/flutter-animation-tutorial-base/
