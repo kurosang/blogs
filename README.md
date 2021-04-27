@@ -32,6 +32,7 @@
 - [一文读懂 TypeScript 泛型及应用（ 7.8K 字）](https://juejin.im/post/6844904184894980104)
 - [你不知道的 TypeScript 泛型（万字长文，建议收藏）](https://juejin.im/post/6844904196827774990)
 - [Typescript 实践总结[基础+工程+实践]](http://blog.poetries.top/2019/09/03/ts-in-action/)
+- [Typescript 查漏补缺](https://github.com/kurosang/blogs/blob/master/foundation/typescript/typescript查漏补缺.md)
 
 ### Vue
 
@@ -42,6 +43,12 @@
 - [Vue 源码-响应式原理](https://github.com/kurosang/blogs/blob/master/foundation/vue/vue源码_响应式原理.md)
 - [Vue 源码-编译](https://github.com/kurosang/blogs/blob/master/foundation/vue/vue源码_编译.md)
 - [Vuex 框架原理与源码分析](https://tech.meituan.com/2017/04/27/vuex-code-analysis.html)
+
+### Flutter
+
+- [flutter 环境搭建](https://github.com/kurosang/blogs/blob/master/foundation/futter/flutter环境搭建.md)
+
+- [flutter 基础](https://github.com/kurosang/blogs/blob/master/foundation/futter/flutter基础.md)
 
 ### 打包工具
 
@@ -59,11 +66,13 @@
   - [外部图片 403 禁止访问问题](https://github.com/kurosang/blogs/blob/master/experience/pc/外部图片403禁止访问问题.md)
   - [input 限制只能输入正整数](https://github.com/kurosang/blogs/blob/master/experience/pc/input限制只能输入正整数.md)
   - [element 的 this.\$confirm 确定框内容换行显示](https://github.com/kurosang/blogs/blob/master/experience/pc/element的this.$confirm确定框内容换行显示.md)
+  - [js 实现黏贴](https://github.com/kurosang/blogs/blob/master/experience/pc/js实现黏贴.md)
+  - [导入 word 文档](https://github.com/kurosang/blogs/blob/master/experience/pc/导入word文档.md)
 
 ---
 
 ## 生活
 
-[2020 学习计划](https://github.com/kurosang/blogs/blob/master/lifes/project2020.md)
+[2021 学习计划](https://github.com/kurosang/blogs/blob/master/lifes/project2021.md)
 
-[电影语录](https://github.com/kurosang/blogs/blob/master/lifes/电影语录.md)
+[2020 学习计划](https://github.com/kurosang/blogs/blob/master/lifes/project2020.md)

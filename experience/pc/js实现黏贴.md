@@ -2,11 +2,7 @@
 
 ### 一、需求
 
-光环助手安卓后台的编辑器 tinymce 关于黏贴，它原本自身就带有 paste 插件，之前因为要支持 word 文档等，我就找了 powerpaste 这个加强文档那块复制黏贴的插件。
-
-但根据运营/产品反馈，还是没有做到完美，比如：word 文档复制黏贴图文混合的时候为什么会出现图片没有显示？为什么有些图片用了 base64 的方式，没有上传到服务器？纯文本黏贴格式丢失？等等。
-
-因此决定，深入源码，好好研究一下黏贴相关的东西，从零实现 **纯文本黏贴**，**图片黏贴自动上传服务器**，**图文混合黏贴**等
+好好研究一下黏贴相关的东西，从零实现 **纯文本黏贴**，**图片黏贴自动上传服务器**，**图文混合黏贴**等
 
 本文涉及知识点：js 如何获取剪切板中的图片， 剪贴板 ClipboardData ，DataTransferItem，解析 XML 文本，各种复制来源分析等
 
@@ -198,3 +194,151 @@ w\:* {behavior:url(#default#VML);}
   wps 就比较简单了，只要是图片黏贴进 wps，都会转化为电脑的本地资源，因此，wps 复制图文混合的内容，图片必然显示空白。
 
 **感谢阅读**
+
+```
+import api from "@/api/api"
+
+export default function doPaste(e, editor, cb) {
+  console.log("doPaste", e)
+  let htmlContent = ""
+  let cbd = e.clipboardData
+  // 如果有复制到file图片资源，并且不是在word文档里（rtf）
+  if (
+    cbd.types.join("").includes("Files") &&
+    !cbd.types.join("").includes("text/rtf")
+  ) {
+    // 循环clipboardData items
+    for (let i = 0; i < cbd.items.length; i++) {
+      let item = cbd.items[i]
+      // 字符串
+      // if (item.kind === "string") {
+      //   // 纯文本
+      //   if (item.type === "text/plain") {
+      //     item.getAsString(function(text) {
+      //       // text 是获取到的字符串
+      //       let textNode = document.createElement("p")
+      //       text = text.replace(/\n/g, "</br>")
+      //       text = text.replace(/\s+/g, "&nbsp;")
+      //       textNode.innerHTML = text
+      //       editor.execCommand("mceInsertContent", false, textNode.innerHTML)
+      //       htmlContent += textNode.innerHTML
+      //     })
+      //   }
+      //   // html
+      //   else if (item.type === "text/html") {
+      //     item.getAsString(function(text) {
+      //       console.log(text)
+      //       editor.execCommand("mceInsertContent", false, text)
+      //       htmlContent += text
+      //     })
+      //   }
+      // }
+      // 图片处理
+      if (item.kind === "file") {
+        let blob = item.getAsFile()
+        if (blob.size === 0) {
+          return
+        }
+        // blob 就是从剪切板获得的文件 可以进行上传或其他操作
+        // 插入占位图
+        let id = new Date().getTime() + ((Math.random() * 1000).toFixed(0) + "")
+        editor.execCommand(
+          "mceInsertContent",
+          false,
+          `<img id="upimg-${id}" class="upload-image">`
+        )
+        htmlContent += `<img id="upimg-${id}" class="upload-image">`
+        // 请求后端接口上传
+        let fd = new FormData()
+        fd.append("files", blob)
+        api
+          .upload_image("article", "", fd)
+          .then(result => {
+            editor.dom.doc.querySelector(`#upimg-${id}`).src = result.data.url
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
+    }
+  }
+  // 如果只有纯文本
+  else if (cbd.types.join("") === "text/plain") {
+    let text = cbd.getData("text/plain")
+    let textNode = document.createElement("p")
+    text = text.replace(/\n/g, "</br>")
+    text = text.replace(/\s+/g, "&nbsp;")
+    textNode.innerHTML = text
+    editor.execCommand("mceInsertContent", false, textNode.innerHTML)
+    htmlContent += textNode.innerHTML
+  }
+  // 剩下的情况就是各种文档黏贴，采用html解析的方式
+  else {
+    // 获取
+    let html = cbd.getData("text/html")
+    // 清理多余标签
+    html = cleanPastedHTML(html)
+    // 解析
+    const $doc = new DOMParser().parseFromString(html, "text/html")
+
+    let imgNodes = $doc.querySelectorAll("img")
+    imgNodes.forEach(item => {
+      if (item.alt.includes("http")) {
+        item.src = item.alt
+      }
+    })
+
+    editor.execCommand(
+      "mceInsertContent",
+      false,
+      $doc.querySelector("body").innerHTML
+    )
+    htmlContent += $doc.querySelector("body").innerHTML
+  }
+
+  setTimeout(() => {
+    cb(htmlContent)
+  }, 10)
+}
+
+function pasteHtml() {}
+function pasteText() {}
+function pasteImage() {}
+
+function cleanPastedHTML(input) {
+  // 1. remove line breaks / Mso classes
+  let stringStripper = /(\n|\r| class=(")?Mso[a-zA-Z]+(")?)/g
+  let output = input.replace(stringStripper, " ")
+  // 2. strip Word generated HTML comments
+  let commentSripper = new RegExp("<!--(.*?)-->", "g")
+  output = output.replace(commentSripper, "")
+  let tagStripper = new RegExp(
+    "<(/)*(meta|link|span|\\?xml:|st1:|o:|font)(.*?)>",
+    "gi"
+  )
+  // 3. remove tags leave content if any
+  output = output.replace(tagStripper, "")
+  // 4. Remove everything in between and including tags '<style(.)style(.)>'
+  let badTags = ["style", "script", "applet", "embed", "noframes", "noscript"]
+
+  for (let i = 0; i < badTags.length; i++) {
+    tagStripper = new RegExp(
+      "<" + badTags[i] + ".*?" + badTags[i] + "(.*?)>",
+      "gi"
+    )
+    output = output.replace(tagStripper, "")
+  }
+  // 5. remove attributes ' style="..."'
+  let badAttributes = ["style", "start"]
+  for (let i = 0; i < badAttributes.length; i++) {
+    let attributeStripper = new RegExp(
+      " " + badAttributes[i] + '="(.*?)"',
+      "gi"
+    )
+    output = output.replace(attributeStripper, "")
+  }
+  return output
+}
+
+
+```
