@@ -54,6 +54,7 @@
 
 - [gulp 基础语法和使用](https://github.com/kurosang/blogs/blob/master/tool/gulp.md)
 - [npm 总结](https://github.com/kurosang/blogs/blob/master/tool/npm.md)
+- [webpack 拦截图片加上 cdn](https://github.com/kurosang/blogs/blob/master/tool/webpack拦截图片加上cdn.md)
 
 ### 工作总结
 
